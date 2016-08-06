@@ -4,8 +4,21 @@
 var express = require('express')
 var db = require('./db')
 var u = require('./utils')
-require('./main/load')()
+var load = require('./main/load')
 
+let info = console.info
+let log = console.log
+let error = console.error
+const tmp = require('fs').createWriteStream(__dirname+'/../temp.log')
+
+console.log = (msg)=>{log(msg); tmp.write(`${new Date()} => #LOG# ${msg}\r\n`)}
+console.error = (msg)=>{error(msg); tmp.write(`${new Date()} => #ERROR# ${msg}\r\n`)}
+console.info = (msg)=>{info(msg); tmp.write(`${new Date()} => #INFO# ${msg}\r\n`)}
+
+load()
+
+var argv = require('minimist')(process.argv.slice(2));
+server(argv.p)
 function server(port) {
     port = port || 7890
     let app = express();
@@ -14,6 +27,14 @@ function server(port) {
     })
     app.get('/', function (req, res) {
         res.end('Hi!')
+    })
+    app.all('/load', function (req, res) {
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.write(`config: \r\n${JSON.stringify(global.config, null, 4)}`)
+        load().then(function () {
+            res.end('\r\nloaded!!!');
+        })
     })
     app.get('/api/search/(:type)', function (req, res) {
         res.setHeader("Access-Control-Allow-Origin", "*")
@@ -48,4 +69,3 @@ function server(port) {
     })
 }
 
-server()

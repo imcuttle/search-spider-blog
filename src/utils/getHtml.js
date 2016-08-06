@@ -9,18 +9,6 @@ module.exports = function (url, path, toJq) {
     toJq = toJq || false;
     // url = url.replace(/^(http|https):\/\//, "")
     return new Promise(function (resolve, reject) {
-        request(url+encodeURI(path), function (err, res, body) {
-            if(err) reject(err);
-            console.info(`response about ${url+path} Code: ${res.statusCode}`)
-            if (!err && res.statusCode == 200) {
-                resolve(toJq ? cheerIO.load(body, {
-                    // ignoreWhitespace: true,
-                    normalizeWhitespace: true
-                }) : body);
-            }else {
-                reject(`response about ${url+path} Code: ${res.statusCode}`);
-            }
-        })
         /*
         http.get({
             protocol: "http:",
@@ -54,6 +42,20 @@ module.exports = function (url, path, toJq) {
             reject(err);
         })
         */
+        request(url+encodeURI(path), function (err, res, body) {
+            if(err) reject(err);
+            else {
+                console.info(`response about ${url+path} Code: ${res.statusCode}`)
+                if (!err && res.statusCode == 200) {
+                    resolve(toJq ? cheerIO.load(body, {
+                        // ignoreWhitespace: true,
+                        normalizeWhitespace: true
+                    }) : body);
+                } else {
+                    reject(`response about ${url + path} Code: ${res.statusCode}`);
+                }
+            }
+        })
     })
 }
 
