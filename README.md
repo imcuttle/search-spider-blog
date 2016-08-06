@@ -12,7 +12,7 @@
     ```
 
 - 对 `blogconfig.json` 进行配置（以我[个人博客](http://moyuyc.github.io/)为例）
-    ```json
+    ```text
     
     {
         "url": "http://moyuyc.github.io/",   //blog url
@@ -38,7 +38,7 @@
     2. `/api/search/(:type)` : type可选值为`date/content/title/all`, 根据什么来搜索, 参数格式为`?q=想搜什么&n=数目(可选)`
     3. `/api/search/all` : 当未传`q`时, 返回所有文章
     4. 2 3点中的返回数据说明 : 
-        ```json
+        ```text
         
         {
             type: 'title/date/content',
