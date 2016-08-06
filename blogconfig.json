@@ -1,0 +1,11 @@
+{
+    "url": "http://moyuyc.github.io/",
+    "mainPagePath": "/archives/",
+    "spiderConfig": {
+        "ArticleLinkEl": ".post-title-link",
+        "splitPagePath": "/archives/page/${page}/",
+        "ArticleDateEl": "time",
+        "ArticleTitleEl": ".post-title",
+        "ArticleContentEl": ".post-body"
+    }
+}
