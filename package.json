@@ -1,0 +1,31 @@
+{
+  "name": "search-spider-blog",
+  "version": "1.0.0",
+  "description": "a search server for your blog based on node",
+  "main": "src/server.js",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "express": "^4.14.0",
+    "minimist": "^1.2.0",
+    "request": "^2.74.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/server.js -p 7899",
+    "load": "node src/load.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moyuyc/search-spider-blog.git"
+  },
+  "keywords": [
+    "search",
+    "blog"
+  ],
+  "author": "moyu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moyuyc/search-spider-blog/issues"
+  },
+  "homepage": "https://github.com/moyuyc/search-spider-blog#readme"
+}
