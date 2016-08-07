@@ -5,6 +5,8 @@
 
 **本人用的为Hexo Blog, 所以Hexo用户体验更佳**
 
+[代码地址](https://github.com/moyuyc/search-spider-blog)
+
 ## 使用说明
 
 - 环境配置
@@ -25,7 +27,8 @@
             "ArticleDateEl": "time",         // 在文章页面中日期的Jquery选择器
             "ArticleTitleEl": ".post-title", // 在文章页面中标题的Jquery选择器
             "ArticleContentEl": ".post-body" // 在文章页面中内容的Jquery选择器
-        }
+        },
+        "allowOrigin": "localhost"          // 允许跨域的来源("localhost"/"*", ""或者不填表示只允许url) 
     }
     ```
 - 脚本指令说明

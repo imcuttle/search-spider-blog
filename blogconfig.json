@@ -7,5 +7,6 @@
         "ArticleDateEl": "time",
         "ArticleTitleEl": ".post-title",
         "ArticleContentEl": ".post-body"
-    }
+    },
+    "allowOrigin": "localhost"
 }

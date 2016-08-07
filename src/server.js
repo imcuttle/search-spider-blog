@@ -9,7 +9,9 @@ var load = require('./main/load')
 let info = console.info
 let log = console.log
 let error = console.error
-const tmp = require('fs').createWriteStream(__dirname+'/../temp.log')
+var fs = require('fs')
+const tmp = fs.createWriteStream(__dirname+'/../temp.log', {flags: 'a'})
+// const tmp = fs.openSync(__dirname+'/../temp.log', 'a+')
 
 console.log = (msg)=>{log(msg); tmp.write(`${new Date()} => #LOG# ${msg}\r\n`)}
 console.error = (msg)=>{error(msg); tmp.write(`${new Date()} => #ERROR# ${msg}\r\n`)}
@@ -23,7 +25,22 @@ function server(port) {
     port = port || 7890
     let app = express();
     app.listen(port, function () {
-        console.log(`[INFO] server running at http://localhost:${port}/`)
+        console.log(`[INFO] server running at http://localhost:${port}`)
+    })
+    app.use(function (req, res, next) {
+        console.log(`[INFO] request ${req.url} from ${req.headers['origin']}`)
+        let access='' , allowOrigin = global.config.allowOrigin
+        if(allowOrigin=='*') {
+            access = '*';
+        }else if(allowOrigin=='' || allowOrigin==null) {
+            access = global.config.url
+        }else {
+            if(new RegExp(`://${allowOrigin}`).test(req.headers['origin'])) {
+                access = req.headers['origin']
+            }
+        }
+        res.setHeader("Access-Control-Allow-Origin", `${access.replace(/\/+$/, '')}`)
+        next();
     })
     app.get('/', function (req, res) {
         res.end('Hi!')
@@ -37,8 +54,6 @@ function server(port) {
         })
     })
     app.get('/api/search/(:type)', function (req, res) {
-        res.setHeader("Access-Control-Allow-Origin", "*")
-        console.log(`[INFO] request ${req.url} coming`)
         let str = req.query.q;
         let num = parseInt(req.query.n);
         switch (req.params.type) {
